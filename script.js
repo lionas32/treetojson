@@ -9,7 +9,6 @@ class TreeNode {
     addChild(node){
         this.children.push(node)
         node.parent = this 
-        console.log(this.children.length)
     }
 
     addChildren(nodes){
@@ -18,22 +17,17 @@ class TreeNode {
 }
 
 class DrawNode {
-    y = 0
-    x = -1
-    tree = null
-    children = []
-    circle = null
 
     constructor(tree, depth){
         this.y = depth
         this.tree = tree
         if(depth == undefined){
+            this.y = 0
             this.children = tree.children.map(e => new DrawNode(e, 1))
 
         } else{
             this.children = tree.children.map(e => new DrawNode(e, depth + 1))
         }
-        console.log("in drawNode(tree, depth)")
     }
 
     leftChild(){
@@ -51,8 +45,15 @@ class DrawNode {
     }
 
     drawTree(){
-        console.log(this.x)
-        this.circle = draw.circle(50).center(400 +  (this.x * 100), 200 + (this.y * 100))
+        this.circle = draw.circle(50).center(400 +  (this.x * 100),200 + (this.y * 100))
+        this.circle.click(() => {
+            const newChild = new TreeNode()
+            this.tree.addChild(newChild)
+            this.children.push(new DrawNode(newChild, this.y + 1))
+            custom_balanced(drawParent)
+            draw.clear()
+            drawParent.drawTree()
+        })
         this.children.forEach(e => e.drawTree())
         this.children.forEach(e => draw.line(this.circle.cx(), this.circle.cy(), e.circle.cx(), e.circle.cy())
                                         .stroke({color: '#000',  width: 2 }))
@@ -65,7 +66,6 @@ const knuth_layout = tree => {
     const setup_tree = (tree, depth) => {
         const left = tree.leftChild()
         const right = tree.rightChild()
-        console.log("in setup tree")
         if (left){
             setup_tree(left, depth + 1)
         }
@@ -93,13 +93,10 @@ const minimum_ws = tree => {
 
 const custom_balanced = tree => {
     let next_x = 0
-    const filled = Array(100).fill(false)
-    const setup_tree = (tree,depth) => {
-        tree.children.forEach(e => setup_tree(e, depth + 1))
-        tree.y = depth
+    const setup_tree = (tree) => {
+        tree.children.forEach(e => setup_tree(e))
         if(tree.children.length == 0){
             tree.x = next_x
-            filled[next_x] = true
             next_x += 1
         }
         else{
@@ -107,13 +104,11 @@ const custom_balanced = tree => {
                 tree.x = tree.children[0].x
             }
             else{
-                filled[next_x] = true
                 tree.x = tree.children.reduce((acc, curr) => acc + curr.x, 0) / tree.children.length
-                console.log(tree.children.reduce((acc, curr) => acc + curr.x, 0)) 
             }
         }
     }
-    setup_tree(tree, 0)
+    setup_tree(tree)
 }
 
 const tree = new TreeNode()
@@ -125,13 +120,14 @@ const rightleftleftleft = new TreeNode()
 tree.addChildren([left,right])
 left.addChildren([new TreeNode(), new TreeNode(), new TreeNode(), new TreeNode(), new TreeNode()])
 right.addChild(rightleft)
-rightleft.addChildren([rightleftleft, new TreeNode()])
+const rightest = new TreeNode()
+rightest.addChild(new TreeNode)
+rightleft.addChildren([rightleftleft, rightest])
 rightleftleft.addChild(rightleftleftleft)
 rightleftleft.addChild(new TreeNode())
 rightleftleft.addChild(new TreeNode())
 rightleftleft.addChild(new TreeNode())
 const drawParent = new DrawNode(tree)
-console.log(drawParent)
 
 
 custom_balanced(drawParent)
