@@ -17,7 +17,6 @@ class TreeNode {
 }
 
 class DrawNode {
-
     constructor(tree, depth){
         this.y = depth
         this.tree = tree
@@ -109,6 +108,14 @@ const custom_balanced = tree => {
         }
     }
     setup_tree(tree)
+}
+
+const produceJson = (tree) => {
+    const traverse = (tree) => {
+            return "\"Node\": [{" + tree.children.map(e => traverse(e)).join(",") + "}]"
+
+    }
+    return "{" + traverse(tree) + "}"
 }
 
 const tree = new TreeNode()
