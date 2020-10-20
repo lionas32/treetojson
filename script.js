@@ -1,6 +1,7 @@
-let draw = SVG().addTo('#drawing').size('100%','100%')
-const docHeight = window.innerHeight
-const docWitdh = window.innerWidth
+let draw = SVG().addTo('.graph-container').size(1000,1000).viewbox(-150,-250,2000,2000).attr({
+    preserveAspectRatio:"xMidYMid meet"
+})
+
 
 class TreeNode {
     children = []
@@ -44,7 +45,7 @@ class DrawNode {
     }
 
     drawTree(){
-        this.circle = draw.circle(50).center(400 +  (this.x * 100),200 + (this.y * 100))
+        this.circle = draw.circle(50).center(this.x * 100, 100 * this.y)
         this.circle.click(() => {
             const newChild = new TreeNode()
             this.tree.addChild(newChild)
@@ -111,11 +112,20 @@ const custom_balanced = tree => {
 }
 
 const produceJson = (tree) => {
-    const traverse = (tree) => {
-            return "\"Node\": [{" + tree.children.map(e => traverse(e)).join(",") + "}]"
-
+    let counter = 0
+    const traverse = (tree, levelCounter = 0) => {
+            // TODO: fix this
+            counter++
+            return `\n${"\t".repeat(levelCounter)}{` 
+                      + `\n${"\t".repeat(levelCounter+1)}\"id\": ${counter}, `
+                      + `\n${"\t".repeat(levelCounter+1)}\"child\": [` 
+                        + tree.children.map(e => traverse(e, levelCounter + 1)).join(",")
+                      + `\n${"\t".repeat(levelCounter+1)}]`
+                      + `\n${"\t".repeat(levelCounter)}}`
     }
-    return "{" + traverse(tree) + "}"
+    const res =  traverse(tree)
+    console.log(res)
+    document.getElementById("translated-tree").innerHTML = res
 }
 
 const tree = new TreeNode()

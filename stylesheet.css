@@ -3,6 +3,7 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
+  display: flex;
 }
 
 html {
@@ -10,11 +11,27 @@ html {
   height: 100%;
 }
 
-#drawing {
+#translated-tree {
+  overflow: scroll;
+  background-color: gray;
+  height: 50%;
+}
+
+.graph-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  width: 70%;
+}
+
+.produce-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-left: 1px solid black;
   margin-top: 10px;
   height: 100%;
-  width: 100%;
+  width: 30%;
 }
