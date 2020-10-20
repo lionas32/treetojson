@@ -14,7 +14,8 @@ html {
 #translated-tree {
   overflow: scroll;
   background-color: gray;
-  height: 50%;
+  height: 80%;
+  width: 80%;
 }
 
 .graph-container {

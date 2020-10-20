@@ -128,6 +128,12 @@ const produceJson = (tree) => {
     document.getElementById("translated-tree").innerHTML = res
 }
 
+const copyJson = () => {
+    const blockElement = document.getElementById("translated-tree")
+    blockElement.select()
+    document.execCommand("copy")
+}
+
 const tree = new TreeNode()
 const left = new TreeNode()
 const right = new TreeNode()
