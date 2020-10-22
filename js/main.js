@@ -47,6 +47,7 @@ class DrawNode {
     drawTree(){
         this.drawNode()
         treeGroup.attr('transform', `translate(${(draw.width() / 2) - (treeGroup.width() / 2)}, 100)`)
+
     }
 
     drawNode(){
@@ -59,7 +60,7 @@ class DrawNode {
             treeGroup.clear()
             drawParent.drawTree()
         })
-        this.children.forEach(e => e.drawTree())
+        this.children.forEach(e => e.drawNode())
         this.children.forEach(e => treeGroup
             .line(this.circle.cx(), this.circle.cy(), e.circle.cx(), e.circle.cy())
             .stroke({color: '#000',  width: 2 }))
