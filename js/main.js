@@ -1,9 +1,7 @@
 let draw = SVG().addTo('.graph-container').size(1000,1000)
-
 let treeGroup = draw.group()
 
 class TreeNode {
-
     constructor(){
         this.children = []
         this.parent = null
@@ -51,26 +49,13 @@ class DrawNode {
         treeGroup.attr('transform', `translate(${(draw.width() / 2) - (treeGroup.width() / 2)}, 100)`)
     }
 
-    moveCircle(){
-        this.circle.center(this.x * 50, this.y * 50)
-        treeGroup.circle(25).center(this.x * 50, this.y * 50)
-        this.circle.click(() => {
-            const newChild = new TreeNode()
-            this.tree.addChild(newChild)
-            this.children.push(new DrawNode(newChild, this.y + 1))
-            custom_balanced(drawParent)
-            treeGroup.clear()
-            drawParent.drawTree()
-        })
-    }
-
     drawNode(){
         this.circle = treeGroup.circle(25).center(this.x * 50, this.y * 50)
         this.circle.click(() => {
             const newChild = new TreeNode()
             this.tree.addChild(newChild)
             this.children.push(new DrawNode(newChild, this.y + 1))
-            custom_balanced(drawParent)
+            customBalanced(drawParent)
             treeGroup.clear()
             drawParent.drawTree()
         })
@@ -84,5 +69,5 @@ class DrawNode {
 const tree = new TreeNode()
 const drawParent = new DrawNode(tree)
 
-custom_balanced(drawParent)
+customBalanced(drawParent)
 drawParent.drawTree()

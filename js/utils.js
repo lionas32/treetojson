@@ -1,43 +1,42 @@
-
 // Knuth layout algorithm for drawing trees. Works only on binary trees.
-const knuth_layout = tree => {
+const knuthLayout = tree => {
     let i = 0
-    const setup_tree = (tree, depth) => {
+    const setupTree = (tree, depth) => {
         const left = tree.leftChild()
         const right = tree.rightChild()
         if (left){
-            setup_tree(left, depth + 1)
+            setupTree(left, depth + 1)
         }
         tree.x = i
         tree.y = depth
         i += 1
         if (right){
-            setup_tree(right, depth + 1)
+            setupTree(right, depth + 1)
         }
     }
-    setup_tree(tree, 0)
+    setupTree(tree, 0)
 }
 
 
 // Minimum width algorithm for drawing trees.
- const minimum_ws = tree => {
+const minimumWidth = tree => {
     const nexts = Array(100).fill(0)
-    const setup_tree = (tree,depth) => {
+    const setupTree = (tree,depth) => {
         tree.x = nexts[depth]
         tree.y = depth
         nexts[depth] += 1
-        tree.children.forEach((e) => setup_tree(e, depth + 1))
+        tree.children.forEach((e) => setupTree(e, depth + 1))
     }
-    setup_tree(tree, 0)
+    setupTree(tree, 0)
 }
 
 
 // A balanced tree drawing algorithm. Messes up on some indexes.
 // Inspired by Bill Mill's article on trees (linked in README.md).
-const custom_balanced = tree => {
+const customBalanced = tree => {
     let next_x = 0
-    const setup_tree = (tree) => {
-        tree.children.forEach(e => setup_tree(e))
+    const setupTree = (tree) => {
+        tree.children.forEach(e => setupTree(e))
         if(tree.children.length == 0){
             tree.x = next_x
             next_x += 1
@@ -51,10 +50,10 @@ const custom_balanced = tree => {
             }
         }
     }
-    setup_tree(tree)
+    setupTree(tree)
 }
 
-const produceJson = (tree) => {
+const produceJSON = (tree) => {
     let counter = 0
     const traverse = (tree, levelCounter = 0) => {
             counter++
@@ -69,7 +68,8 @@ const produceJson = (tree) => {
     document.getElementById("translated-tree").innerHTML = res
 }
 
-const copyJson = () => {
+
+const copyJSON = () => {
     const blockElement = document.getElementById("translated-tree")
     blockElement.select()
     document.execCommand("copy")
