@@ -65,7 +65,7 @@ const produceJson = (tree) => {
                       + `\n${"\t".repeat(levelCounter+1)}]`
                       + `\n${"\t".repeat(levelCounter)}}`
     }
-    const res =  traverse(tree)
+    const res = traverse(tree)
     document.getElementById("translated-tree").innerHTML = res
 }
 

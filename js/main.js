@@ -1,7 +1,6 @@
-let draw = SVG().addTo('.graph-container').size(1000,1000).viewbox(-150,-250,2000,2000).attr({
-    preserveAspectRatio:"xMidYMid meet"
-})
+let draw = SVG().addTo('.graph-container').size(1000,1000)
 
+let treeGroup = draw.group()
 
 class TreeNode {
     children = []
@@ -42,21 +41,40 @@ class DrawNode {
             return null
         else
             return this.children[1]
-    }
+        }
 
     drawTree(){
-        this.circle = draw.circle(50).center(this.x * 100, 100 * this.y)
+        this.drawNode()
+        treeGroup.attr('transform', `translate(${(draw.width() / 2) - (treeGroup.width() / 2)}, 100)`)
+    }
+
+    moveCircle(){
+        this.circle.center(this.x * 50, this.y * 50)
+        treeGroup.circle(25).center(this.x * 50, this.y * 50)
         this.circle.click(() => {
             const newChild = new TreeNode()
             this.tree.addChild(newChild)
             this.children.push(new DrawNode(newChild, this.y + 1))
             custom_balanced(drawParent)
-            draw.clear()
+            treeGroup.clear()
+            drawParent.drawTree()
+        })
+    }
+
+    drawNode(){
+        this.circle = treeGroup.circle(25).center(this.x * 50, this.y * 50)
+        this.circle.click(() => {
+            const newChild = new TreeNode()
+            this.tree.addChild(newChild)
+            this.children.push(new DrawNode(newChild, this.y + 1))
+            custom_balanced(drawParent)
+            treeGroup.clear()
             drawParent.drawTree()
         })
         this.children.forEach(e => e.drawTree())
-        this.children.forEach(e => draw.line(this.circle.cx(), this.circle.cy(), e.circle.cx(), e.circle.cy())
-                                        .stroke({color: '#000',  width: 2 }))
+        this.children.forEach(e => treeGroup
+            .line(this.circle.cx(), this.circle.cy(), e.circle.cx(), e.circle.cy())
+            .stroke({color: '#000',  width: 2 }))
     }
 }
 
