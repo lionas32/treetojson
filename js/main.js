@@ -3,8 +3,11 @@ let draw = SVG().addTo('.graph-container').size(1000,1000)
 let treeGroup = draw.group()
 
 class TreeNode {
-    children = []
-    parent = null
+
+    constructor(){
+        this.children = []
+        this.parent = null
+    }
 
     addChild(node){
         this.children.push(node)

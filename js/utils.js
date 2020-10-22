@@ -73,4 +73,5 @@ const copyJson = () => {
     const blockElement = document.getElementById("translated-tree")
     blockElement.select()
     document.execCommand("copy")
+    document.getSelection().removeAllRanges();
 }
