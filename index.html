@@ -9,10 +9,16 @@
 <body>
     <section class="graph-container">
     </section>
-    <section class="produce-container">
+    <section class="form-container">
         <textarea readonly id="translated-tree"></textarea>
-        <button onclick="produceJSON(tree)">Produce JSON</button>
-        <button onclick="copyJSON()">Copy JSON</button>
+        <div class="button-container">
+            <button onclick="produceCode()">Generate</button>
+            <select name="formats" id="formats">
+                <option value="JSON">JSON</option>
+                <option value="XML">XML</option>
+            </select>
+            <button onclick="copyCode()">Copy to Clipboard</button>
+        </div>
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.0.16/svg.min.js" integrity="sha512-p3Tp2zn+wApBreZCgRkmMwnfpN8MUPXzzOihXx7iGYXqE7t6m9drY8HeyMeeFuDWiTFKrGUrq3jpbT0vX6zY/Q==" crossorigin="anonymous"></script>
     <script src="js/utils.js"></script>

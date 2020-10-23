@@ -57,7 +57,11 @@ const produceJSON = (tree) => {
     let counter = 0
     const traverse = (tree, levelCounter = 0) => {
             counter++
-            return `\n${"\t".repeat(levelCounter)}{` 
+            let nl = "\n"
+            if(counter == 1){
+                nl = ""
+            }
+            return `${nl}${"\t".repeat(levelCounter)}{` 
                       + `\n${"\t".repeat(levelCounter+1)}\"id\": ${counter}, `
                       + `\n${"\t".repeat(levelCounter+1)}\"child\": [` 
                         + tree.children.map(e => traverse(e, levelCounter + 1)).join(",")
@@ -68,10 +72,36 @@ const produceJSON = (tree) => {
     document.getElementById("translated-tree").innerHTML = res
 }
 
+const produceXML = (tree) => {
+    let counter = 0
+    const traverse = (tree, levelCounter = 0) => {
+            counter++
+            let nl = "\n"
+            if(counter == 1){
+                nl = ""
+            }
+            return `${nl}${"\t".repeat(levelCounter)}<node id=\"${counter}\"` + 
+                    (tree.children.length ? (">" + tree.children.map(e => traverse(e, levelCounter + 1)).join("")
+                                                 + `\n${"\t".repeat(levelCounter)}</node>`)
+                                   : "/>")
+    }
+    const res = traverse(tree)
+    document.getElementById("translated-tree").innerHTML = res
+}
 
-const copyJSON = () => {
+const copyCode = () => {
     const blockElement = document.getElementById("translated-tree")
     blockElement.select()
     document.execCommand("copy")
     document.getSelection().removeAllRanges();
 }
+
+const produceCode = () => {
+    const f = document.getElementById("formats").value
+    formats[f](tree)
+}
+
+const formats = {
+    "XML": produceXML,
+    "JSON": produceJSON
+} 
