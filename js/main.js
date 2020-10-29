@@ -1,4 +1,4 @@
-let draw = SVG().addTo('.graph-container').size(1000,1000)
+let draw = SVG().addTo('.graph-container').size(1400,1000).viewbox(0,0,1400,1000)
 let treeGroup = draw.group()
 
 class TreeNode {
@@ -50,7 +50,7 @@ class DrawNode {
     }
 
     drawNode(){
-        this.circle = treeGroup.circle(25).center(this.x * 50, this.y * 50)
+        this.circle = treeGroup.circle(35).center(this.x * 75, this.y * 75)
         this.circle.click(() => {
             const newChild = new TreeNode()
             this.tree.addChild(newChild)
