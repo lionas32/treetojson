@@ -24,7 +24,6 @@ class DrawNode {
         if(depth == undefined){
             this.y = 0
             this.children = tree.children.map(e => new DrawNode(e, 1))
-
         } else{
             this.children = tree.children.map(e => new DrawNode(e, depth + 1))
         }
@@ -42,7 +41,7 @@ class DrawNode {
             return null
         else
             return this.children[1]
-        }
+    }
 
     drawTree(){
         this.drawNode()

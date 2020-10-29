@@ -57,11 +57,7 @@ const produceJSON = (tree) => {
     let counter = 0
     const traverse = (tree, levelCounter = 0) => {
             counter++
-            let nl = "\n"
-            if(counter == 1){
-                nl = ""
-            }
-            return `${nl}${"\t".repeat(levelCounter)}{` 
+            return `${counter == 1 ? "" : "\n"}${"\t".repeat(levelCounter)}{` 
                       + `\n${"\t".repeat(levelCounter+1)}\"id\": ${counter}, `
                       + `\n${"\t".repeat(levelCounter+1)}\"child\": [` 
                         + tree.children.map(e => traverse(e, levelCounter + 1)).join(",")
@@ -76,11 +72,7 @@ const produceXML = (tree) => {
     let counter = 0
     const traverse = (tree, levelCounter = 0) => {
             counter++
-            let nl = "\n"
-            if(counter == 1){
-                nl = ""
-            }
-            return `${nl}${"\t".repeat(levelCounter)}<node id=\"${counter}\"` + 
+            return `${counter == 1 ? "" : "\n"}${"\t".repeat(levelCounter)}<node id=\"${counter}\"` + 
                     (tree.children.length ? (">" + tree.children.map(e => traverse(e, levelCounter + 1)).join("")
                                                  + `\n${"\t".repeat(levelCounter)}</node>`)
                                    : "/>")
